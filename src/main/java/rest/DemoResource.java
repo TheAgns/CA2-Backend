@@ -121,6 +121,7 @@ public class DemoResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("fetchParallel")
+    @RolesAllowed("admin")
     public String fetchParallel() throws InterruptedException {
         LocalTime begin = LocalTime.now();
         String[] str = {
