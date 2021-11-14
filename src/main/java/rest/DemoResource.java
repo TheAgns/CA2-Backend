@@ -98,6 +98,7 @@ public class DemoResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("fetchSeq")
+    @RolesAllowed("user")
     public String fetchSequentially() throws IOException {
         LocalTime begin = LocalTime.now();
         String cat = HttpUtils.fetchData("https://catfact.ninja/fact");
