@@ -100,15 +100,22 @@ public class DemoResource {
     @Path("fetchSeq")
     public String fetchSequentially() throws IOException {
         LocalTime begin = LocalTime.now();
-    String cat = HttpUtils.fetchData("https://catfact.ninja/fact");
-    String boredom = HttpUtils.fetchData("https://www.boredapi.com/api/activity");
-    String dog = HttpUtils.fetchData("https://dog.ceo/api/breeds/image/random");
-    String ip = HttpUtils.fetchData("https://api.ipify.org/?format=json");
+        String cat = HttpUtils.fetchData("https://catfact.ninja/fact");
+        String boredom = HttpUtils.fetchData("https://www.boredapi.com/api/activity");
+        String dog = HttpUtils.fetchData("https://dog.ceo/api/breeds/image/random");
+        String ip = HttpUtils.fetchData("https://api.ipify.org/?format=json");
+        CatDTO catDTO = gson.fromJson(cat,CatDTO.class);
+        BoredomDTO boredomDTO = gson.fromJson(boredom,BoredomDTO.class);
+        DogDTO dogDTO = gson.fromJson(dog,DogDTO.class);
+        IpDTO ipDTO = gson.fromJson(ip,IpDTO.class);
+
+        CombinedDTO combinedDTO = new CombinedDTO(boredomDTO,catDTO,dogDTO,ipDTO);
+
         LocalTime end = LocalTime.now();
         long result = ChronoUnit.MILLIS.between(begin,end);
 
-        return cat+boredom+dog+ip+" sequentially in ms: " + result;
-    }
+
+        return gson.toJson(combinedDTO) /*+ "sequantially fetch: " +  result*/;    }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
