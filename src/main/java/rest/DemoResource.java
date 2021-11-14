@@ -148,6 +148,6 @@ public class DemoResource {
         LocalTime end = LocalTime.now();
         long result = ChronoUnit.MILLIS.between(begin,end);
 
-        return gson.toJson(combinedDTO) + "parallel fetch: " +  result;
+        return gson.toJson(combinedDTO);
     }
 }
