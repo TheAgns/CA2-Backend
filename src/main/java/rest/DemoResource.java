@@ -13,6 +13,7 @@ import javax.annotation.security.RolesAllowed;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
@@ -135,6 +136,13 @@ public class DemoResource {
         BoredomDTO boredomDTO = null;
         DogDTO dogDTO = null;
         IpDTO ipDTO = null;
+        CombinedDTO combinedDTO = null;
+
+/*
+WebApplicationException(String message, int status)
+Construct a new instance with a blank message and specified HTTP status code.
+*/
+ try {
 
 
         List<String> JsonResponse = HttpUtils.fetchMany(str);
@@ -143,8 +151,11 @@ public class DemoResource {
         dogDTO = gson.fromJson(JsonResponse.get(2),DogDTO.class);
         ipDTO = gson.fromJson(JsonResponse.get(3),IpDTO.class);
 
-        CombinedDTO combinedDTO = new CombinedDTO(boredomDTO,catDTO,dogDTO,ipDTO);
+        combinedDTO = new CombinedDTO(boredomDTO,catDTO,dogDTO,ipDTO);
 
+ } catch (Exception e){
+     throw new WebApplicationException("Api failed", 500);
+ }
         LocalTime end = LocalTime.now();
         long result = ChronoUnit.MILLIS.between(begin,end);
 
