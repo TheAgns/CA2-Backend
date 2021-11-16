@@ -5,7 +5,6 @@ public class BoredomDTO {
     private String social;
     private String participants;
     private String type;
-    //hej
 
     public BoredomDTO(String activity, String social, String participants, String type) {
         this.activity = activity;

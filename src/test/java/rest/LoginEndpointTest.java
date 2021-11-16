@@ -5,6 +5,8 @@ import entities.Role;
 
 import io.restassured.RestAssured;
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.*;
+
 import io.restassured.http.ContentType;
 import io.restassured.parsing.Parser;
 import java.net.URI;
@@ -12,9 +14,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.ws.rs.core.UriBuilder;
 import org.glassfish.grizzly.http.server.HttpServer;
+import org.glassfish.grizzly.http.util.HttpStatus;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
-import static org.hamcrest.Matchers.equalTo;
+
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -219,6 +222,36 @@ public class LoginEndpointTest {
                 .statusCode(403)
                 .body("code", equalTo(403))
                 .body("message", equalTo("Not authenticated - do login"));
+    }
+    @Test
+    public void testParallelFetchFromAPI() throws Exception{
+        login("admin", "test");
+        given()
+                .contentType("application/json")
+                .header("x-access-token", securityToken)
+                .when()
+                .get("/info/fetchParallel").then()
+                .assertThat()
+                .statusCode(HttpStatus.OK_200.getStatusCode())
+                .body("boredomDTO", notNullValue())
+                .body("catDTO.length", greaterThan(1))
+        .body("dogDTO.status", equalTo("success"))
+        .body("ipDTO", notNullValue());
+    }
+    @Test
+    public void testSequantialFetchFromAPI() throws Exception{
+        login("user", "test");
+        given()
+                .contentType("application/json")
+                .header("x-access-token", securityToken)
+                .when()
+                .get("/info/fetchSeq").then()
+                .assertThat()
+                .statusCode(HttpStatus.OK_200.getStatusCode())
+                .body("boredomDTO", notNullValue())
+                .body("catDTO.length", greaterThan(1))
+                .body("dogDTO.status", equalTo("success"))
+                .body("ipDTO", notNullValue());
     }
 
 }

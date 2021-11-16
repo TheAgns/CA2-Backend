@@ -2,9 +2,9 @@ package dtos;
 
 public class CatDTO {
     private String fact;
-    private String length;
+    private int length;
 
-    public CatDTO(String fact, String length) {
+    public CatDTO(String fact, int length) {
         this.fact = fact;
         this.length = length;
     }
@@ -17,11 +17,11 @@ public class CatDTO {
         this.fact = fact;
     }
 
-    public String getLength() {
+    public int getLength() {
         return length;
     }
 
-    public void setLength(String length) {
+    public void setLength(int length) {
         this.length = length;
     }
 }
