@@ -1,5 +1,6 @@
 package utils;
 
+import javax.ws.rs.WebApplicationException;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -36,7 +37,7 @@ return "";
     }
 
     //Fra tutorne
-    public static List<String> fetchMany(String[] urls) throws InterruptedException {
+    public static List<String> fetchMany(String[] urls) throws InterruptedException, WebApplicationException {
 
         List<Future<String>> futures = new ArrayList<>();
         ExecutorService executorService = Executors.newFixedThreadPool(urls.length);

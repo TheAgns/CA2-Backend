@@ -123,7 +123,7 @@ public class DemoResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("fetchParallel")
     @RolesAllowed("admin")
-    public String fetchParallel() throws InterruptedException {
+    public String fetchParallel() throws InterruptedException, WebApplicationException {
         LocalTime begin = LocalTime.now();
         String[] str = {
                 "https://catfact.ninja/fact",
